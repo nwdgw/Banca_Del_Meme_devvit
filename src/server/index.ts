@@ -51,7 +51,17 @@ const server = createServer(async (req, res) => {
   const pathname = new URL(req.url ?? '/', 'http://localhost').pathname;
 
   if (method !== 'POST') {
-    sendJson(res, 200, { ok: true });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end(`<!doctype html>
+<html lang="it">
+<head><meta charset="utf-8"><title>BancaDelMeme · Devvit</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:680px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">
+  <h1 style="font-size:1.25rem;margin-bottom:8px">BancaDelMeme · Reddit Devvit</h1>
+  <p style="color:#475569;margin-top:0">Porting 1:1 di <code>timendum/BancaDelMeme</code> per Reddit Devvit.</p>
+  <p>Questo repository è pronto per il deploy su Reddit con <code>npm install &amp;&amp; npm run build &amp;&amp; devvit upload &amp;&amp; devvit install r/BancaDelMeme</code>. Consulta <code>README.md</code> per configurazione, Telegram e migrazione DB.</p>
+</body>
+</html>`);
     return;
   }
 

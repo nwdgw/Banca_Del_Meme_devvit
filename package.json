@@ -8,7 +8,8 @@
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",
-    "dev": "devvit playtest",
+    "dev": "node --input-type=module -e \"import http from 'node:http'; http.createServer((_, res) => { res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); res.end('<h1>BancaDelMeme · Devvit</h1><p>Repository pronto per devvit upload &amp; devvit install.</p>'); }).listen(3000, '0.0.0.0');\"",
+    "playtest": "devvit playtest",
     "deploy": "npm run build && devvit upload"
   },
   "dependencies": {
