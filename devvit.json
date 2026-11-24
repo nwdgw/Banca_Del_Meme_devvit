@@ -1,0 +1,127 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "bancadelmeme",
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.cjs"
+  },
+  "triggers": {
+    "onPostCreate": "/internal/triggers/on-post-create",
+    "onCommentCreate": "/internal/triggers/on-comment-create"
+  },
+  "scheduler": {
+    "tasks": {
+      "process-maturities": {
+        "cron": "*/2 * * * *",
+        "endpoint": "/internal/scheduler/process-maturities"
+      },
+      "update-leaderboard": {
+        "cron": "*/20 * * * *",
+        "endpoint": "/internal/scheduler/update-leaderboard"
+      }
+    }
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "BancaDelMeme: Importa DB Legacy (JSON)",
+        "description": "Importa i dati esportati da export_db.py in Devvit Redis",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/import-db"
+      },
+      {
+        "label": "BancaDelMeme: Riscuoti Tasse IRPEF",
+        "description": "Esegue taxes.ts su tutti gli investitori attivi",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/run-taxes"
+      },
+      {
+        "label": "BancaDelMeme: Esporta Classifica Stagione",
+        "description": "Salva la classifica finale sulla wiki (seasonleaderboard.ts)",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/export-season"
+      },
+      {
+        "label": "BancaDelMeme: Reset Nuova Stagione",
+        "description": "Azzera investitori, investimenti e post per nuova stagione",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/new-season"
+      }
+    ]
+  },
+  "forms": {
+    "importDbForm": "/internal/form/import-db"
+  },
+  "settings": {
+    "global": {
+      "tgToken": {
+        "type": "string",
+        "label": "Telegram Bot Token (TG_TOKEN)",
+        "isSecret": true
+      }
+    },
+    "subreddit": {
+      "postToReddit": {
+        "type": "boolean",
+        "label": "Pubblica realmente i commenti su Reddit (BOT_POST_TO_REDDIT)",
+        "defaultValue": true
+      },
+      "isModerator": {
+        "type": "boolean",
+        "label": "Fissa e approva i commenti del bot (BOT_IS_MODERATOR)",
+        "defaultValue": true
+      },
+      "investmentDuration": {
+        "type": "number",
+        "label": "Durata investimento in secondi (es. 14400 = 4 ore, 86400 = 24 ore)",
+        "defaultValue": 14400
+      },
+      "startingBalance": {
+        "type": "number",
+        "label": "Saldo iniziale in Mem€ (BOT_STARTING_BALANCE)",
+        "defaultValue": 1000
+      },
+      "closed": {
+        "type": "boolean",
+        "label": "Stagione chiusa ai nuovi investimenti (BOT_CLOSED)",
+        "defaultValue": false
+      },
+      "maintenance": {
+        "type": "boolean",
+        "label": "Modalità manutenzione attiva (BOT_MAINTENANCE)",
+        "defaultValue": false
+      },
+      "adminAccounts": {
+        "type": "string",
+        "label": "Account admin separati da virgola per !rimuovi (BOT_ADMIN_REDDIT_ACCOUNTS)",
+        "defaultValue": "timendum"
+      },
+      "subredditSlug": {
+        "type": "string",
+        "label": "Nome subreddit (senza r/)",
+        "defaultValue": "BancaDelMeme"
+      },
+      "tgChannel": {
+        "type": "string",
+        "label": "Canale Telegram (es. @BancaDelMeme o chat_id numerico, TG_CHANNEL)",
+        "defaultValue": ""
+      }
+    }
+  },
+  "permissions": {
+    "reddit": {
+      "enable": true
+    },
+    "redis": true,
+    "http": {
+      "enable": true,
+      "domains": [
+        "api.telegram.org"
+      ]
+    }
+  }
+}

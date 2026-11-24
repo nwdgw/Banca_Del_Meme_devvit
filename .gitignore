@@ -1,8 +1,9 @@
 node_modules/
-build/
 dist/
-coverage/
+.devvit/
+__pycache__/
+*.pyc
 .DS_Store
 *.log
 .env*
-!.env.example
+bdb_dump*.json
